@@ -1,11 +1,6 @@
 'use strict';
 
-module.exports.getProductsList = async (event) => {
-  return {
-    statusCode: 200,
-    body: {
-        productName: 'car1',
-        price: 123,
-    },
-  };
-};
+import { getProductsById } from './getProductsById.js';
+import { getProductsList } from './getProductsList.js';
+
+export { getProductsById, getProductsList };
