@@ -1,0 +1,6 @@
+{
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "path": "{\n    \"id\": 1\n  }"
+}

@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": [
+      {
+          "id": 1,
+          "productName": "car1",
+          "price": 111
+      },
+      {
+          "id": 2,
+          "productName": "car2",
+          "price": 222
+      }
+  ]
+}
