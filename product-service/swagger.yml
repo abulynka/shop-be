@@ -1,0 +1,78 @@
+swagger: "2.0"
+info:
+  description: "Car Online Shop"
+  version: "1.0.0"
+  title: "Car Online Shop"
+  termsOfService: ""
+  contact:
+    email: "abulynka@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "rawukoru6g.execute-api.eu-west-1.amazonaws.com"
+basePath: "/dev"
+
+tags:
+- name: "car"
+  description: "Everything about your Cars"
+    
+schemes:
+- "https"
+paths:
+  /products:
+    get:
+      tags:
+        - "all products"
+      summary: "Get All Products"
+      description: "Get All Products"
+      operationId: "getProductsList"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Car"
+        "500":
+          description: "Internal Server Error"
+
+  /products/{productId}:
+    get:
+      tags:
+        - "all products"
+      summary: "Get All Products"
+      description: "Get All Products"
+      operationId: "getProductsById"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "productId"
+          in: "path"
+          description: "ID of product to return"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            items:
+              $ref: "#/definitions/Car"
+        "500":
+          description: "Internal Server Error"
+
+definitions:
+  Car:
+    type: "object"
+    properties:
+      productName:
+        type: "string"
+        format: "string"
+      price:
+        type: "number"
+        format: "number"
+    xml:
+      name: "Car"
