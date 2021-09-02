@@ -11,14 +11,16 @@ const getProductsList: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async
       [
         {
             id: 1,
-            productName: 'car1',
+            title: 'car1 title',
+            description: 'car1 description',
             price: 111
         },
 
         {
-            id: 2,
-            productName: 'car2',
-            price: 222
+          id: 2,
+          title: 'car2 title',
+          description: 'car2 description',
+          price: 222
         }
     ]
   );

@@ -26,7 +26,10 @@ const serverlessConfiguration: AWS = {
     },
     lambdaHashingVersion: '20201221',
     stage: 'dev',
-    region: 'eu-west-1'
+    region: 'eu-west-1',
+    httpApi: {
+      cors: true
+    }
   },
 
   // import the function via paths

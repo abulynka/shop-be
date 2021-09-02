@@ -11,6 +11,16 @@ export default {
         request: {
           schema: {
             'application/json': schema
+          },
+        },
+        cors: true
+      },
+      response: {
+        parameters: {
+          headers: {
+            'Access-Control-Allow-Methods': '*',
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json',
           }
         }
       }

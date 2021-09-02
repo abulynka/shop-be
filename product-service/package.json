@@ -43,18 +43,23 @@
     "webpack-node-externals": "^2.5.2"
   },
   "jest": {
-    "testURL": "http://localhost/",
+    "globals": {
+      "ts-jest": {
+        "tsconfig": "tsconfig.json"
+      }
+    },
     "transform": {
-        "^.+\\.tsx?$": "ts-jest"
+      "^.+\\.tsx?$": "ts-jest"
     },
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleDirectories": ["node_modules", "src"],
     "moduleFileExtensions": [
-        "ts",
-        "tsx",
-        "js",
-        "jsx",
-        "json",
-        "node"
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
     ]
   },
   "author": "The serverless webpack authors (https://github.com/elastic-coders/serverless-webpack)",
