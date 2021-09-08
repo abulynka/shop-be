@@ -1,6 +1,6 @@
 import 'source-map-support/register';
 
-import type { ValidatedAPIGatewayProxyEvent, ValidatedEventAPIGatewayProxyEvent } from '@libs/apiGateway';
+import { formatJSONResponseInternalServerError, ValidatedAPIGatewayProxyEvent, ValidatedEventAPIGatewayProxyEvent } from '@libs/apiGateway';
 import { formatJSONResponse } from '@libs/apiGateway';
 import { middyfy } from '@libs/lambda';
 
@@ -12,11 +12,16 @@ const createProduct: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
   await new Logger().logEvent(event);
 
   const productModel = new Products();
-  return formatJSONResponse(
-    await productModel.getProductById(
-      await productModel.createProduct(event.body as { [key: string]: string })
-    )
-  );
+
+  try {
+    return formatJSONResponse(
+      await productModel.getProductById(
+        await productModel.createProduct(event.body as { [key: string]: string })
+      )
+    );
+  } catch (e) {
+    return formatJSONResponseInternalServerError();
+  }
 }
 
 export const main = middyfy(createProduct);
