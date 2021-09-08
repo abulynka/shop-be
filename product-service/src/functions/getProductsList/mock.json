@@ -3,15 +3,19 @@
     "Content-Type": "application/json"
   },
   "body": [
-      {
-          "id": 1,
-          "productName": "car1",
-          "price": 111
-      },
-      {
-          "id": 2,
-          "productName": "car2",
-          "price": 222
-      }
+    {
+        "id": "84cf4c38-6ed2-4be1-b23a-49cb92f6149f",
+        "count": 5,
+        "price": 1,
+        "title": "car1",
+        "description": "Car 1 desc"
+    },
+    {
+        "id": "a1a834b9-5eb6-430c-8a9e-de1cf2207931",
+        "count": 9,
+        "price": 2,
+        "title": "car2",
+        "description": "Car 2 desc"
+    }
   ]
 }
