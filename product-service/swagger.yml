@@ -37,6 +37,31 @@ paths:
         500:
           description: Internal Server Error
           content: {}
+    post:
+      tags:
+      - new product
+      summary: Add new Product
+      description: Add new Product
+      operationId: createProduct
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CarRequest'
+          text/plain:
+            schema:
+              type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+        500:
+          description: Internal Server Error
+          content: {}
   /products/{productId}:
     get:
       tags:
@@ -58,7 +83,8 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                items:
+                  $ref: '#/components/schemas/Car'
         500:
           description: Internal Server Error
           content: {}
@@ -68,8 +94,8 @@ components:
       type: object
       properties:
         id:
-          type: number
-          format: number
+          type: string
+          format: string
         title:
           type: string
           format: string
@@ -79,5 +105,21 @@ components:
         price:
           type: number
           format: number
-      xml:
-        name: Car
+        count:
+          type: number
+          format: number
+    CarRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          format: string
+        description:
+          type: string
+          format: string
+        price:
+          type: number
+          format: number
+        count:
+          type: number
+          format: number
