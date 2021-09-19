@@ -5,23 +5,23 @@ import { formatJSONResponse } from '@libs/apiGateway';
 import { middyfy } from '@libs/lambda';
 
 import schema from './schema';
-import { Products } from '@libs/models/Products';
 import Logger from '@libs/log/logger';
+import { Products } from '@libs/models/Products';
 
-const getProductsList: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event: ValidatedAPIGatewayProxyEvent<string>) => {
+const createProduct: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event: ValidatedAPIGatewayProxyEvent<string>) => {
   await new Logger().logEvent(event);
 
-  try {
-    const jsonResponse = formatJSONResponse(
-      await new Products()
-        .getProducts()
-    );
+  const productModel = new Products();
 
-    await new Logger().log(jsonResponse);
-    return jsonResponse;
+  try {
+    return formatJSONResponse(
+      await productModel.getProductById(
+        await productModel.createProduct(event.body as { [key: string]: string })
+      )
+    );
   } catch (e) {
     return formatJSONResponseInternalServerError();
   }
 }
 
-export const main = middyfy(getProductsList);
+export const main = middyfy(createProduct);

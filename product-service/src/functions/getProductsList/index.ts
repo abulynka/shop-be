@@ -6,17 +6,8 @@ export default {
     {
       http: {
         method: 'get',
-        path: 'products',
-        cors: true
-      },
-      response: {
-        parameters: {
-          headers: {
-            'Access-Control-Allow-Methods': '*',
-            'Access-Control-Allow-Origin': '*',
-            'Content-Type': 'application/json'
-          }
-        }
+        cors: true,
+        path: 'products'
       }
     }
   ]
