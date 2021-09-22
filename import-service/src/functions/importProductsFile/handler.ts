@@ -5,8 +5,7 @@ import { middyfy } from '@libs/lambda';
 import { S3 } from 'aws-sdk';
 import schema from './schema';
 import Logger from '@libs/log/logger';
-
-const BUCKET = 'rsschool-in-aws-s3';
+import { Constants } from '@libs/constants';
 
 const importProductsFile: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
   await new Logger().logEvent(event);
@@ -14,17 +13,19 @@ const importProductsFile: ValidatedEventAPIGatewayProxyEvent<typeof schema> = as
   const catalogName = event.queryStringParameters.name;
   const catalogPath = `uploaded/${catalogName}`;
 
-  const s3 = new S3({ region: 'eu-west-1' });
+  const constants = new Constants();
+
+  const s3 = new S3({ region: constants.getRegion() });
   const params = {
-    Bucket: BUCKET,
+    Bucket: constants.getBucketName(),
     Key: catalogPath,
     Expires: 60,
     ContentType: 'text/csv'
   };
 
-  const url = await s3.getSignedUrlPromise('putObject', params);
-
-  return formatJSONResponse(url);
+  return formatJSONResponse(
+    await s3.getSignedUrlPromise('putObject', params)
+  );
 }
 
 export const main = middyfy(importProductsFile);
