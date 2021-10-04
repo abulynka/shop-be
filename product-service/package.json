@@ -9,7 +9,7 @@
     "local:hello": "npm run build && npx sls invoke local -f hello --path src/functions/hello/mock.json --stage local-dev",
     "local:products": "npm run build && npx sls invoke local -f getProductsList --stage local-dev",
     "local:products:id": "npm run build && npx sls invoke local -f getProductById --path src/functions/getProductById/mock.json --stage local-dev",
-    "test": "jest --silent=false"
+    "test": "jest"
   },
   "engines": {
     "node": ">=14.15.0"

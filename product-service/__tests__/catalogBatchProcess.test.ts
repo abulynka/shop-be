@@ -11,7 +11,7 @@ describe('catalogBatchProcess', () => {
     beforeEach(async () => {
         mockedMiddyfy = mocked(middyfy);
         mockedMiddyfy.mockImplementation((handler: Handler) => {
-        return handler as never;
+            return handler as never;
         });
         main = (await import('@functions/catalogBatchProcess/handler')).main;
     });
@@ -22,18 +22,14 @@ describe('catalogBatchProcess', () => {
 
     it('should return catalogBatchProcess parsed products', async () => {
         const event = ({
-            Records: [
-                {
-                    body: "{ title: 'Car-1', description: 'Car-1 description', price: '1', count: '10' }",
-                }
-            ]}) as SQSEvent;
+            Records: [{
+                body: "{ title: 'Car-1', description: 'Car-1 description', price: '1', count: '10' }",
+            }]}) as SQSEvent;
 
         const actual = await main(event);
 
-        await expect(actual).toEqual(
-            {
-                body: "{ title: 'Car-1', description: 'Car-1 description', price: '1', count: '10' }",
-            }
-        );
+        await expect(actual).toEqual({
+            body: "{ title: 'Car-1', description: 'Car-1 description', price: '1', count: '10' }",
+        });
     });
 });
