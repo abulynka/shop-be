@@ -15,7 +15,11 @@ const importProductsFile: ValidatedEventAPIGatewayProxyEvent<typeof schema> = as
 
   const constants = new Constants();
 
-  const s3 = new S3({ region: constants.getRegion() });
+  const s3 = new S3({
+    region: constants.getRegion(),
+    signatureVersion: constants.getSignatureVersion(),
+  });
+
   const params = {
     Bucket: constants.getBucketName(),
     Key: catalogPath,
