@@ -9,7 +9,7 @@
     "local:hello": "npm run build && npx sls invoke local -f hello --path src/functions/hello/mock.json --stage local-dev",
     "local:products": "npm run build && npx sls invoke local -f getProductsList --stage local-dev",
     "local:products:id": "npm run build && npx sls invoke local -f getProductById --path src/functions/getProductById/mock.json --stage local-dev",
-    "test": "jest"
+    "test": "jest --silent=false"
   },
   "engines": {
     "node": ">=14.15.0"
@@ -20,6 +20,7 @@
     "@types/pg": "^8.6.1",
     "aws-lambda": "^1.0.6",
     "aws-lambda-mock-context": "^3.2.1",
+    "aws-sdk": "^2.999.0",
     "pg": "^8.7.1",
     "source-map-support": "^0.5.19",
     "tslint": "^6.1.3"

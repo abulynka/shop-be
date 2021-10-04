@@ -4,6 +4,7 @@ import hello from '@functions/hello';
 import getProductsList from '@functions/getProductsList';
 import getProductById from '@functions/getProductById';
 import createProduct from '@functions/createProduct';
+import catalogBatchProcess from '@functions/catalogBatchProcess';
 
 const serverlessConfiguration: AWS = {
   service: 'product-service',
@@ -32,18 +33,92 @@ const serverlessConfiguration: AWS = {
       PG_PORT: process.env['PG_PORT'],
       PG_DATABASE: process.env['PG_DATABASE'],
       PG_USERNAME: process.env['PG_USERNAME'],
-      PG_PASSWORD: process.env['PG_PASSWORD']
+      PG_PASSWORD: process.env['PG_PASSWORD'],
+      SQS_URL: { Ref: 'catalogItemsQueue' },
+      SNS_ARN: { Ref: 'createProductTopic' },
     },
     lambdaHashingVersion: '20201221',
     stage: 'dev',
     region: 'eu-west-1',
     httpApi: {
       cors: true
-    }
+    },
+    iamRoleStatements: [
+      {
+        Effect: 'Allow',
+        Action: 'sqs:*',
+        Resource: {
+          'Fn::GetAtt': ['catalogItemsQueue', 'Arn'],
+        },
+      },
+      {
+        Effect: 'Allow',
+        Action: 'sns:*',
+        Resource: {
+          'Ref': 'createProductTopic'
+        },
+      }
+    ],
+  },
+  resources: {
+    Resources: {
+      catalogItemsQueue: {
+        Type: 'AWS::SQS::Queue',
+        Properties: {
+          QueueName: 'catalogItemsQueue',
+        },
+      },
+      createProductTopic: {
+        Type: 'AWS::SNS::Topic',
+        Properties: {
+          TopicName: 'createProductTopic'
+        }
+      },
+      createProductTopicSubscription: {
+        Type: 'AWS::SNS::Subscription',
+        Properties: {
+          Endpoint: 'abulynka@gmail.com',
+          Protocol: 'email',
+          TopicArn: {
+            Ref: 'createProductTopic'
+          }
+        }
+      },
+      createProductTopicSubscriptionAdditional: {
+        Type: 'AWS::SNS::Subscription',
+        Properties: {
+          Endpoint: 'alexbulynka@gmail.com',
+          Protocol: 'email',
+          TopicArn: {
+            Ref: 'createProductTopic'
+          },
+          FilterPolicy: {
+            'additional': ['data']
+          }
+        }
+      },
+    },
+    Outputs: {
+      catalogItemsQueue: {
+        Value: {
+          Ref: 'catalogItemsQueue',
+        },
+        Export: {
+          Name: 'catalogItemsQueue',
+        },
+      },
+      catalogItemsQueueArn: {
+        Value: {
+          'Fn::GetAtt': ['catalogItemsQueue', 'Arn'],
+        },
+        Export: {
+          Name: 'catalogItemsQueueArn',
+        },
+      },
+    },
   },
 
-  // import the function via paths
-  functions: { hello, getProductsList, getProductById, createProduct },
+  functions: { hello, getProductsList, getProductById, createProduct, catalogBatchProcess },
 };
 
 module.exports = serverlessConfiguration;
