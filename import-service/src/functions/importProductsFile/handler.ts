@@ -23,9 +23,10 @@ const importProductsFile: ValidatedEventAPIGatewayProxyEvent<typeof schema> = as
     ContentType: 'text/csv'
   };
 
-  return formatJSONResponse(
-    await s3.getSignedUrlPromise('putObject', params)
-  );
+  console.log('params: ', JSON.stringify(params));
+
+  const url = await s3.getSignedUrlPromise('putObject', params);
+  return formatJSONResponse(url);
 }
 
 export const main = middyfy(importProductsFile);

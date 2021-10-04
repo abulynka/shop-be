@@ -19,13 +19,18 @@ const serverlessConfiguration: AWS = {
     iamRoleStatements: [
       {
         Effect: 'Allow',
-        Action: 's3:listBucket',
+        Action: 's3:ListBucket',
         Resource: 'arn:aws:s3:::rsschool-in-aws-s3',
       },
       {
         Effect: 'Allow',
         Action: 's3:*',
         Resource: 'arn:aws:s3:::rsschool-in-aws-s3/*',
+      },
+      {
+        Effect: 'Allow',
+        Action: 'sqs:*',
+        Resource: { 'Fn::ImportValue': 'catalogItemsQueueArn', },
       }
     ],
     apiGateway: {
@@ -34,6 +39,7 @@ const serverlessConfiguration: AWS = {
     },
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+      SQS_URL: { 'Fn::ImportValue': 'catalogItemsQueue', },
     },
     lambdaHashingVersion: '20201221',
     stage: 'dev',
@@ -42,7 +48,6 @@ const serverlessConfiguration: AWS = {
       cors: true
     }
   },
-  // import the function via paths
   functions: {
     importProductsFile,
     importFileParser
