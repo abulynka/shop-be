@@ -6,8 +6,9 @@ export default {
   events: [
     {
       http: {
-        method: 'post',
+        method: 'get',
         path: 'basicAuthorizer',
+        cors: true,
         request: {
           schema: {
             'application/json': schema
