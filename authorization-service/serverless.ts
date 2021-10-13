@@ -11,7 +11,10 @@ const serverlessConfiguration: AWS = {
       includeModules: true,
     },
   },
-  plugins: ['serverless-webpack'],
+  plugins: [
+      'serverless-webpack',
+      'serverless-dotenv-plugin',
+  ],
   provider: {
     name: 'aws',
     runtime: 'nodejs14.x',
@@ -20,12 +23,29 @@ const serverlessConfiguration: AWS = {
       shouldStartNameWithService: true,
     },
     environment: {
-      AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+      AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1'
     },
     lambdaHashingVersion: '20201221',
+    stage: 'dev',
+    region: 'eu-west-1',
+    httpApi: {
+      cors: true
+    }
   },
   // import the function via paths
   functions: { basicAuthorizer },
+  resources: {
+    Outputs: {
+      basicAuthorizer: {
+        Value: {
+          'Fn::GetAtt': ['BasicAuthorizerLambdaFunction', 'Arn'],
+        },
+        Export: {
+          Name: 'basicAuthorizer',
+        },
+      },
+    },
+  },
 };
 
 module.exports = serverlessConfiguration;
