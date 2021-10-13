@@ -2,7 +2,7 @@ import 'source-map-support/register';
 import { middyfy } from '@libs/lambda';
 import { Handler, S3Event } from 'aws-lambda';
 import { InvokeAsyncResponse } from 'aws-sdk/clients/lambda';
-import { S3 } from 'aws-sdk';
+import { S3, SQS } from 'aws-sdk';
 import { Constants } from '@libs/constants';
 import csvParser from 'csv-parser';
 import Logger from '@libs/log/logger';
@@ -26,8 +26,20 @@ const importFileParser: Handler = async (event: S3Event): Promise<InvokeAsyncRes
       s3Stream.pipe(csvParser())
         .on(
           'data',
-          (data: string) => {
+          async (data: string) => {
             console.log(data);
+
+            const sqs = new SQS();
+
+            console.log('QueueUrl: ', process.env.SQS_URL);
+            console.log('MessageBody', JSON.stringify(data));
+
+            await sqs.sendMessage({
+              QueueUrl: process.env.SQS_URL,
+              MessageBody: JSON.stringify(data)
+            }).promise();
+
+            console.log(`Message ${JSON.stringify(data)} sent to sqs`);
         })
         .on('end', async () => {
           const copyToName = copyFromName.replace('uploaded', 'parsed');

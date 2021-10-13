@@ -6,4 +6,8 @@ export class Constants {
     public getRegion() {
         return 'eu-west-1';
     }
+
+    public getSignatureVersion() {
+        return 'v4';
+    }
 }
