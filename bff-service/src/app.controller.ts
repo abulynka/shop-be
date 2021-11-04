@@ -29,9 +29,9 @@ export class AppController {
     }
 
     if (method.toLowerCase() === 'get'
-        && pathSplit[pathSplit.length - 1] === 'products'
-        && AppController.productsCache.cacheUnixTime !== 0
-        && new Date().getTime() - AppController.productsCache.cacheUnixTime < AppController.validCacheMSec) {
+      && pathSplit[pathSplit.length - 1] === 'products'
+      && AppController.productsCache.cacheUnixTime !== 0
+      && new Date().getTime() - AppController.productsCache.cacheUnixTime < AppController.validCacheMSec) {
       return response.status(AppController.productsCache.status)
           .json(AppController.productsCache.data);
     }
@@ -45,7 +45,8 @@ export class AppController {
 
     const result = await this.appService.performRequest(method, `${url}${path}`, params);
 
-    if (pathSplit[pathSplit.length - 1] === 'products') {
+    if (method.toLowerCase() === 'get'
+      && pathSplit[pathSplit.length - 1] === 'products') {
       AppController.productsCache.cacheUnixTime = new Date().getTime();
       AppController.productsCache.data = result.data;
       AppController.productsCache.status = result.status;
