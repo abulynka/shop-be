@@ -22,7 +22,8 @@
     "eb:init": "eb init --platform node.js --region eu-west-1",
     "eb:create": "eb create abulynka-bff-api --single --cname abulynka-bff-api-develop",
     "eb:deploy": "eb deploy",
-    "eb:terminate": "eb terminate"
+    "eb:terminate": "eb terminate",
+    "eb:redeploy": "npm run eb:terminate && npm run eb:deploy"
   },
   "dependencies": {
     "@nestjs/axios": "^0.0.3",
