@@ -15,6 +15,6 @@ export class AppConfig {
 
     public getPort(): number {
         const port = this.configService.get('port')
-        return parseInt(port, 10) || 3000;
+        return parseInt(port, 10) || 8001;
     }
 }
