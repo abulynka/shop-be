@@ -13,10 +13,7 @@ export class AppConfig {
         }
     }
 
-    public getPort(): number {
-        return 8001;
-        // const port = this.configService.get('port')
-        // console.log('Config Port: ', port);
-        // return parseInt(port, 10) || 8001;
+    public getPort(): string {
+        return this.configService.get('port') || '8081';
     }
 }
