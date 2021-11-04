@@ -2,8 +2,8 @@
 
 ```bash
 # eb
-eb init -r eu-west-1 abulynka-cart-api
-eb create --single --cname abulynka-cart-api-test
+eb init -r eu-west-1 abulynka-bff-api
+eb create --single --cname abulynka-bff-api-test
 
 # remove eb
 eb list
